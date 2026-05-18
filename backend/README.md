@@ -12,7 +12,7 @@ FastAPI backend that captures and streams live network packets over WebSocket.
 
 1. Install dependencies:
     ```bash
-    pip install fastapi uvicorn websockets scapy psutil
+    pip install -r requirements.txt
     ```
 
 2. Run the app:
