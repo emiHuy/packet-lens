@@ -1,6 +1,5 @@
-from scapy.all import sniff, IP, TCP, UDP, ICMP, ARP
 import threading
-import time
+from scapy.all import sniff, IP, TCP, UDP, ICMP, ARP
 
 class PacketSniffer:
     def __init__(self):
