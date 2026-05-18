@@ -110,41 +110,33 @@ def get_default_interface():
 
 # --- Capture ---
 
-# Signal PacketSniffer to start the capture
-@app.post("/api/capture/start")
+# Signal PacketSniffer to start/stop the capture
+@app.post("/api/capture")
 def start_capture(interface: str = None, name: str = None):
     global processor, sniffer, current_session_id
 
-    if sniffer.running:
-        return {"status": "error", "message": "Capture already in progress"}
-    
-    selected_interface = interface or get_default_interface()
-
-    if not selected_interface:
-        return {"status": "error", "message": "No suitable interface found"}
-
-    processor = PacketProcessor()
-    current_session_id = session_manager.create_session(selected_interface, name)
-    sniffer.start(interface=selected_interface, callback=network_pipeline_callback)
-
-    return {"status": "started", "interface": selected_interface, "session_id": current_session_id}
-
-# Signal PacketSniffer to stop capture
-@app.post("/api/capture/stop")
-def stop_capture():
-    global processor, sniffer, current_session_id
-
     if not sniffer.running:
-        return {"status": "error", "message": "No active capture session to stop"}
+        # Start the capture if sniffer is not active
+        selected_interface = interface or get_default_interface()
+        if not selected_interface:
+            return {"status": "error", "message": "No suitable interface found"}
+
+        processor = PacketProcessor()
+        current_session_id = session_manager.create_session(selected_interface, name)
+        sniffer.start(interface=selected_interface, callback=network_pipeline_callback)
+
+        return {"status": "started", "interface": selected_interface, "session_id": current_session_id}
     
-    sniffer.stop()
+    else:
+        # Stop the capture if sniffer is active
+        sniffer.stop()
 
-    if current_session_id is not None and processor is not None:
-        session_manager.end_session(current_session_id, processor.get_session_stats())
-    session_id = current_session_id
-    current_session_id = None
+        if current_session_id is not None and processor is not None:
+            session_manager.end_session(current_session_id, processor.get_session_stats())
+        session_id = current_session_id
+        current_session_id = None
 
-    return {"status": "stopped", "session_id": session_id}
+        return {"status": "stopped", "session_id": session_id}
 
 # --- Sessions ---
 
