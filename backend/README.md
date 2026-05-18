@@ -5,6 +5,7 @@ FastAPI backend that captures and streams live network packets over WebSocket.
 - FastAPI + Uvicorn
 - Scapy (packet capture)
 - WebSockets
+- psutil (interface detection)
 
 ## Setup
 > **Note:** Requires Npcap on Windows and administrator privileges.
@@ -20,8 +21,11 @@ FastAPI backend that captures and streams live network packets over WebSocket.
     ```
 
 ## API
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/capture/start` | Start capture, auto-detects interface |
-| POST | `/api/capture/stop` | Stop capture |
-| WS | `/ws/packets` | Stream packets + session stats |
+| Method | Endpoint | Params | Description |
+|--------|----------|:------:|-------------|
+| POST | `/api/capture/start` | `interface` (optional), `name` (optional) | Start capture |  
+| POST | `/api/capture/stop` | — | Stop capture |  
+| GET | `/api/sessions` | — | Get all sessions |  
+| GET | `/api/sessions/{session_id}` | — | Get session by ID |  
+| PATCH | `/api/sessions/{session_id}` | `name` | Rename session |  
+| WS | `/ws/packets` | — | Stream packets + session stats | 
