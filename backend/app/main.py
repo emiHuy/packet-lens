@@ -8,9 +8,11 @@ from scapy.all import IFACES
 
 from app.core.sniffer import PacketSniffer
 from app.core.processor import PacketProcessor
+from app.db.session_store import SessionManager
 
 packet_queue: asyncio.Queue = None 
 active_websockets: list[WebSocket] = []
+current_session_id: int = None
 
 # Handles background tasks starting up and shutting down cleanly
 @asynccontextmanager
@@ -41,6 +43,7 @@ app.add_middleware(
 
 sniffer = PacketSniffer()
 processor = None
+session_manager = SessionManager()
 
 # Asynchronous background task that continuously pulls data from the queue and broadcasts it to all active WebSocket connections
 async def broadcast_worker():
@@ -72,6 +75,9 @@ def network_pipeline_callback(parsed_packet):
         enriched_packet = processor.process_packet_dict(parsed_packet)
         stats_snapshot = processor.get_session_stats()
 
+        if current_session_id is not None:
+            session_manager.insert_packet(current_session_id, enriched_packet)
+
         payload = {
             "packet": enriched_packet,
             "stats": stats_snapshot,
@@ -102,10 +108,12 @@ def get_default_interface():
     
     return None
 
+# --- Capture ---
+
 # Signal PacketSniffer to start the capture
 @app.post("/api/capture/start")
-def start_capture(interface: str = None):
-    global processor, sniffer
+def start_capture(interface: str = None, name: str = None):
+    global processor, sniffer, current_session_id
 
     if sniffer.running:
         return {"status": "error", "message": "Capture already in progress"}
@@ -116,19 +124,52 @@ def start_capture(interface: str = None):
         return {"status": "error", "message": "No suitable interface found"}
 
     processor = PacketProcessor()
+    current_session_id = session_manager.create_session(selected_interface, name)
     sniffer.start(interface=selected_interface, callback=network_pipeline_callback)
-    return {"status": "started", "interface": selected_interface}
+
+    return {"status": "started", "interface": selected_interface, "session_id": current_session_id}
 
 # Signal PacketSniffer to stop capture
 @app.post("/api/capture/stop")
 def stop_capture():
-    global processor, sniffer
+    global processor, sniffer, current_session_id
 
     if not sniffer.running:
         return {"status": "error", "message": "No active capture session to stop"}
     
     sniffer.stop()
-    return {"status": "stopped"}
+
+    if current_session_id is not None and processor is not None:
+        session_manager.end_session(current_session_id, processor.get_session_stats())
+    session_id = current_session_id
+    current_session_id = None
+
+    return {"status": "stopped", "session_id": session_id}
+
+# --- Sessions ---
+
+# Get all sessions
+@app.get("/api/sessions")
+def get_sessions():
+    return session_manager.get_all_sessions()
+
+# Get session from session id
+@app.get("/api/sessions/{session_id}")
+def get_session_by_id(session_id: int):
+    session = session_manager.get_session_by_id(session_id)
+    if not session:
+        return {"status": "error", "message": f"Session {session_id} not found"}
+    return session
+
+# Change existing session's name
+@app.patch("/api/sessions/{session_id}")
+def rename_session(session_id: int, name: str):
+    updated = session_manager.rename_session(session_id, name)
+    if not updated:
+        return {"status": "error", "message": f"Session {session_id} not found"}
+    return {"status": "ok", "session_id": session_id, "name": name}
+
+# --- WebSocket ---
 
 # Accepts and tracks live WebSocket connections from the frontend
 @app.websocket("/ws/packets")
