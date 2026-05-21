@@ -1,0 +1,72 @@
+
+.liveView {
+    height: 56vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* --- IDLE [CAPTURE] WRAPPER --- */
+.idleWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.startBtnWrapper {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ring {
+    width: 120px;
+    height: 120px;
+    border: 1px solid var(--purple-border);
+    border-radius: 50%;
+    position: absolute;
+}
+
+.captureBtn {
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--purple-bg);
+    border: 2px solid var(--purple-border);
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 100;
+}
+
+.captureBtn:hover {
+    opacity: 0.6;
+    border-color: var(--text-tertiary);
+}
+
+.captureBtn:active {
+    opacity: 0.2;
+}
+
+.startText {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 30px;
+}
+
+.secondaryText {
+    color: var(--text-secondary);
+}
+
+.tertiaryText {
+    color: var(--text-tertiary);
+}
+
