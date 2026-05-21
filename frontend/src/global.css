@@ -40,4 +40,5 @@
 body {
     background-color: var(--bg-color-primary);
     overflow: hidden;
+    height: 100vh;
 }
