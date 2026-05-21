@@ -4,7 +4,7 @@
     justify-content: space-between;
     padding: 14px 20px;
     border-bottom: 0.5px solid var(--border-color-primary);
-    font-family: var(--font-sans)
+    font-family: var(--font-sans);
 }
 
 .brand {
