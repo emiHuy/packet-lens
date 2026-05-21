@@ -9,8 +9,8 @@ export default function LiveView({ capturing, setCapturing }) {
                 <div className={styles.idleWrapper}>
                     <div className={styles.startBtnWrapper}>
                         <div className={styles.ring}></div>
-                        <button className={styles.captureBtn} id="start-capture-btn">
-                            <Play className={styles.captureImg} size={30} color="var(--text-accented-muted)" fill="var(--text-accented-muted)" stroke="var(--text-accented)" strokeWidth={1.5}/>
+                        <button className={styles.startBtn} id="start-capture-btn">
+                            <Play size={30} color="var(--text-accented-muted)" fill="var(--text-accented-muted)" stroke="var(--text-accented)" strokeWidth={1.5}/>
                         </button>
                     </div>
                     <div className={styles.startText}>

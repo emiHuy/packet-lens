@@ -32,7 +32,7 @@
     position: absolute;
 }
 
-.captureBtn {
+.startBtn {
     width: 80px;
     height: 80px;
     display: flex;
@@ -45,12 +45,12 @@
     z-index: 100;
 }
 
-.captureBtn:hover {
+.startBtn:hover {
     opacity: 0.6;
     border-color: var(--text-tertiary);
 }
 
-.captureBtn:active {
+.startBtn:active {
     opacity: 0.2;
 }
 
