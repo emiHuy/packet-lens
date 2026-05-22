@@ -1,9 +1,13 @@
 import { Play, Square } from "lucide-react";
+import { useState } from "react";
 
 import Card from "../components/Card"
 import styles from "./LiveView.module.css"
 
-export default function LiveView({ capturing, setCapturing, session, stats }) {
+export default function LiveView({ capturing, setCapturing }) {
+    const [session, setSession] = useState({});
+    const [stats, setStats] = useState({});
+
     return (
         <div className={styles.liveView}>
 
