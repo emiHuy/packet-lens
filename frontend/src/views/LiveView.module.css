@@ -1,10 +1,8 @@
-
 .liveView {
     height: 56vh;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
 }
 
 /* --- IDLE [CAPTURE] WRAPPER --- */
@@ -70,3 +68,38 @@
     color: var(--text-tertiary);
 }
 
+/* --- ACTIVE [CAPTURE] WRAPPER --- */
+.activeWrapper {
+    width: 95%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding-bottom: 20px;
+}
+
+.topbar {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 20px;
+}
+
+.stopBtn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: var(--red-bg);
+    border: 0.5px solid var(--red-border);
+    border-radius: 6px;
+    color: var(--red);
+    font-size: 12px;
+    padding: 5px 11px;
+}
+
+.sessionInfo {
+    color: var(--text-label);
+    font-size: 12px;
+    font-family: var(--font-sans);
+}

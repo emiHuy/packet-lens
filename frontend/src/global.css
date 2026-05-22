@@ -2,9 +2,11 @@
     --bg-color-primary: #0c0c0f;
     --bg-color-secondary: #13131a;
     --bg-color-active: #1e1e28;
+    --bg-color-card: #111118;
 
     --border-color-primary: #1a1a22;
     --border-color-secondary: #1e1e28;
+    --border-color-card: #22222e;
 
     --font-sans: "Inter", sans-serif;
     --font-mono: "JetBrains Mono", monospace;
@@ -12,9 +14,7 @@
     --text-primary: #e8e8f0;
     --text-secondary: #777788;
     --text-tertiary: #444455;
-
     --text-label: #555566; 
-
     --text-accented: #CECBF6;
     --text-accented-muted: #8888a0;
 
@@ -29,6 +29,10 @@
     --green: #5DCAA5;
     --green-bg: #1D9E7518;
     --green-border: #1D9E7533;
+
+    --red: #F09595;
+    --red-bg: #E24B4A12;
+    --red-border: #E24B4A44;
 }
 
 * {
