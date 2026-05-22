@@ -1,7 +1,9 @@
 import { Play, Square } from "lucide-react";
+
+import Card from "../components/Card"
 import styles from "./LiveView.module.css"
 
-export default function LiveView({ capturing, setCapturing, session }) {
+export default function LiveView({ capturing, setCapturing, session, stats }) {
     return (
         <div className={styles.liveView}>
 
@@ -32,6 +34,13 @@ export default function LiveView({ capturing, setCapturing, session }) {
                             Stop capture
                         </button>
                         <span className={styles.sessionInfo}>{session?.interface || "Unknown" } · {session.session_name || session?.session_id || "Unnamed Session"}</span>
+                    </div>
+
+                    <div className={styles.cards}>
+                        <Card label="Total Packets" value={stats?.packets} color="var(--text-accented)"></Card>
+                        <Card label="Total Bytes" value={stats?.bytes} color="var(--text-accented)"></Card>
+                        <Card label="Top Protocol" value={Object.entries(stats?.ports || {}).sort((a,b) => b[1]-a[1])[0]} color="var(--text-accented)"></Card> {/* Change colour based on protocol shown */}
+                        <Card label="Packets/second" value={stats?.pps} color="var(--text-accented)"></Card>
                     </div>
 
                 </div>

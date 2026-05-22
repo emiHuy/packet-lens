@@ -1,4 +1,5 @@
 from collections import Counter
+import time
 
 class PacketProcessor:
     def __init__(self):
@@ -11,6 +12,9 @@ class PacketProcessor:
         self.sources = Counter()
         self.destinations = Counter()
         self.ports = Counter()
+
+        # Packets/seconds tracking
+        self.packet_timestamps = []
 
         # Port mapping dictionary
         self.COMMON_PORTS = {
@@ -30,6 +34,12 @@ class PacketProcessor:
             return self.COMMON_PORTS[port]
         
         return f"Port {port}"
+    
+    def _get_pps(self) -> int:
+        now = time.time()
+        self.packet_timestamps.append(now)
+        self.packet_timestamps = [t for t in self.packet_timestamps if now - t < 1.0]
+        return len(self.packet_timestamps)
     
     # Take parsed packet, update session statistics, and enrich data with friendly names
     def process_packet_dict(self, parsed_packet: dict) -> dict:
@@ -56,10 +66,11 @@ class PacketProcessor:
     # Returns the aggregated data snapshot for the frontend
     def get_session_stats(self) -> dict:
         return {
-            "total_packets": self.total_packets,
-            "total_bytes": self.total_bytes,
+            "packets": self.total_packets,
+            "bytes": self.total_bytes,
             "protocols": dict(self.protocols),
             "sources": dict(self.sources),
             "destinations": dict(self.destinations),
-            "ports": dict(self.ports)
+            "ports": dict(self.ports),
+            "pps": self._get_pps(),
         }
