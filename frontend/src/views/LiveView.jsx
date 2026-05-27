@@ -2,6 +2,7 @@ import { Play, Square } from "lucide-react";
 import { useState } from "react";
 
 import Card from "../components/Card"
+import ChartBox from "../components/ChartBox";
 import styles from "./LiveView.module.css"
 
 export default function LiveView({ capturing, setCapturing }) {
@@ -45,6 +46,12 @@ export default function LiveView({ capturing, setCapturing }) {
                         <Card label="Total Bytes" value={stats?.bytes} color="var(--text-accented)"></Card>
                         <Card label="Top Protocol" value={Object.entries(stats?.ports || {}).sort((a,b) => b[1]-a[1])[0]} color="var(--text-accented)"></Card> {/* Change colour based on protocol shown */}
                         <Card label="Packets/second" value={stats?.pps} color="var(--text-accented)"></Card>
+                    </div>
+
+                    <div className={styles.charts}>
+                        <ChartBox type="pie" title="Protocol Breakdown" data={stats?.protocols}/>
+                        <ChartBox type="bar" title="Top Ports" data={stats?.ports}/>
+                        <ChartBox type="bar" title="Top Destinations" data={stats?.destinations}/>
                     </div>
 
                 </div>
