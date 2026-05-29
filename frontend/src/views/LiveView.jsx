@@ -3,11 +3,13 @@ import { useState } from "react";
 
 import Card from "../components/Card"
 import ChartBox from "../components/ChartBox";
+import PacketTable from "../components/PacketTable";
 import styles from "./LiveView.module.css"
 
 export default function LiveView({ capturing, setCapturing }) {
     const [session, setSession] = useState({});
     const [stats, setStats] = useState({});
+    const [packets, setPackets] = useState([]);
 
     return (
         <div className={styles.liveView}>
@@ -53,7 +55,10 @@ export default function LiveView({ capturing, setCapturing }) {
                         <ChartBox type="bar" title="Top Ports" data={stats?.ports}/>
                         <ChartBox type="bar" title="Top Destinations" data={stats?.destinations}/>
                     </div>
-
+                    
+                    <div className={styles.packetTable}>
+                        <PacketTable packets={packets}/>
+                    </div>
                 </div>
             }
             
