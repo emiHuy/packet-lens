@@ -18,22 +18,45 @@ class PacketProcessor:
 
         # Port mapping dictionary
         self.COMMON_PORTS = {
-            80: "HTTP",
-            443: "HTTPS",
-            53: "DNS",
-            22: "SSH",
-            8000: "FastAPI App"
+            20: "FTP Data", 
+            21: "FTP", 22: 
+            "SSH", 
+            23: "Telnet",
+            25: "SMTP", 
+            53: "DNS", 
+            67: "DHCP", 
+            68: "DHCP",
+            80: "HTTP", 
+            110: "POP3", 
+            143: "IMAP", 
+            161: "SNMP",
+            194: "IRC", 
+            443: "HTTPS", 
+            445: "SMB", 
+            465: "SMTPS",
+            587: "SMTP", 
+            631: "IPP",
+            993: "IMAPS", 
+            995: "POP3S",
+            1194: "OpenVPN", 
+            1433: "MSSQL", 
+            1521: "Oracle",
+            3306: "MySQL", 
+            3389: "RDP", 
+            5432: "Postgres",
+            5900: "VNC", 
+            6379: "Redis", 
+            8080: "HTTP-Alt",
+            8443: "HTTPS-Alt", 
+            27017: "MongoDB"
         }
 
     # Converts a port number into a consistent human-readable string label
     def _get_port_label(self, port) -> str:
-        if port == "-":
-            return "-"
-    
         if port in self.COMMON_PORTS:
             return self.COMMON_PORTS[port]
         
-        return f"Port {port}"
+        return "-" 
     
     def _get_pps(self) -> int:
         now = time.time()

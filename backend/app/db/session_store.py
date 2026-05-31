@@ -69,8 +69,8 @@ class SessionManager:
                    WHERE id = ?""",
                 (
                     time.time(),
-                    stats["total_packets"],
-                    stats["total_bytes"],
+                    stats["packets"],
+                    stats["bytes"],
                     json.dumps(stats["protocols"]),
                     json.dumps(stats["sources"]),
                     json.dumps(stats["destinations"]),

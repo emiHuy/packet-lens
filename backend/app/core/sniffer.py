@@ -23,7 +23,7 @@ class PacketSniffer:
             "id": f"{packet.time}-{len(packet)}",
             "timestamp": packet.time,
             "size": len(packet),
-            "protocol": "UNKNOWN",
+            "protocol": "UNK",
             "src": "Unknown",
             "dst": "Unknown",
             "sport": "-",
