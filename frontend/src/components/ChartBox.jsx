@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react"
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts"
 
 import { PROTOCOL_COLOURS } from "../utils/constants";
+import { formatNumber } from "../utils/helpers";
 import styles from "./ChartBox.module.css"
 
 export default function ChartBox({ type, title, data }) {
@@ -40,7 +41,7 @@ function PieChartView({ data }) {
                     <div key={entry.name} className={styles.legendItem}>
                         <span className={styles.swatch} style={{ background: PROTOCOL_COLOURS[entry.name] ?? "#555566" }} />
                         <span>{entry.name}</span>
-                        <span className={styles.legendVal}>{entry.value.toLocaleString()} ({Math.round(entry.value / total * 100)}%)</span>
+                        <span className={styles.legendVal}>{formatNumber(entry.value)} ({Math.round(entry.value / total * 100)}%)</span>
                     </div>
                 ))}
             </div>
@@ -53,7 +54,7 @@ function BarChartView({ data }) {
     
     const max = chartData[0]?.value ?? 1;
     const maxLabelLen = Math.max(...chartData.map(d => d.name.length));
-    const maxLen = chartData[0].value.toLocaleString().length;
+    const maxLen = formatNumber(chartData[0]?.value)?.length ?? 1;
 
     return (
         <div className={styles.barChart}>
@@ -63,7 +64,7 @@ function BarChartView({ data }) {
                     <div className={styles.barTrack}>
                         <div className={styles.bar} style={{width: `${Math.round((entry.value / max) * 100)}%`}}/>
                     </div>
-                    <span className={styles.barValue} style={{ minWidth: `${maxLen}ch` }}>{entry.value.toLocaleString()}</span>
+                    <span className={styles.barValue} style={{ minWidth: `${maxLen}ch` }}>{formatNumber(entry.value)}</span>
                 </div>
             ))}
         </div>

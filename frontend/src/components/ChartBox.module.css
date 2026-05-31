@@ -28,6 +28,7 @@
 /* Pie chart */
 .pieChart {
     display: flex;
+    gap: 5px;
 }
 
 .legend {
@@ -43,7 +44,7 @@
     align-items: center;
     gap: 8px;
     font-size: 11px;
-    color: var(--text-secondary);
+    color: var(--text-accented-muted);
 }
 
 .swatch {
@@ -92,7 +93,7 @@
 
 .barLabel {
     font-size: 12px;
-    color: var(--text-secondary);
+    color: var(--text-accented-muted);
     flex-shrink: 0;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -105,7 +106,7 @@
 .barValue {
     min-width: 10px;
     font-size: 12px;
-    color: var(--text-secondary);
+    color: var(--text-accented-muted);
     flex-shrink: 0;
     text-align: left;
     font-family: var(--font-mono);
