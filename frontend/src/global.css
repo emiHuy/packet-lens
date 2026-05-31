@@ -40,8 +40,15 @@
     padding: 0;
 }
 
+html {
+    height: 100%;
+}
+
 body {
     background-color: var(--bg-color-primary);
-    overflow: hidden;
-    height: 100vh;
+    height: 100%;
+}
+
+#root {
+    height: 100%;
 }

@@ -3,5 +3,5 @@ export const PROTOCOL_COLOURS = {
   "UDP": "var(--yellow)",
   "ICMP": "var(--green)",
   "ARP": "var(--red)",
-  "UNKNOWN": "var(--text-label)",
+  "UNK": "var(--text-label)",
 };

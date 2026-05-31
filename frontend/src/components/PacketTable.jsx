@@ -1,7 +1,11 @@
 import { memo } from "react"
+
+import { ProtocolBadge } from "./ProtocolBadge"
+import { formatNumber, formatTimestamp, formatBytes } from "../utils/helpers"
+
 import styles from "./PacketTable.module.css"
 
-export default function PacketTable( { packets } ) {
+export default function PacketTable( { packets = [] } ) {
     return (
         <div className={styles.tableWrapper}>
             <table>
@@ -14,11 +18,11 @@ export default function PacketTable( { packets } ) {
                         <th>Src Port</th>
                         <th>Dst Port</th>
                         <th>Size</th>
-                    </tr>     
+                    </tr>
                 </thead>
                 <tbody>
-                    {packets.length > 0 ? ( packets.map((p) => (
-                        <PacketRow key={p.id} packet={p}/>
+                    {packets.length > 0 ? ( packets.map((p, index) => (
+                        <PacketRow key={`${p.id}-${index}`} packet={p}/>
                     ))) : (
                         <tr>
                             <td className={styles.empty} colSpan={7}>No data yet.</td>
@@ -32,13 +36,13 @@ export default function PacketTable( { packets } ) {
 
 const PacketRow = memo(({ packet }) => (
     <tr>
-        <td>{packet.timestamp}</td> {/* format timestamp using helper */}
-        <td>{packet.protocol}</td> {/* Use protocol badge */}
+        <td>{formatTimestamp(packet.timestamp)}</td>
+        <td><ProtocolBadge protocol={packet.protocol}/></td>
         <td>{packet.src}</td>
         <td>{packet.dst}</td>
         <td>{packet.sport_friendly}</td>
         <td>{packet.dport_friendly}</td>
-        <td>{packet.size}</td> {/* format bytes */}
+        <td>{formatBytes(packet.size)}</td>
     </tr>
 ));
 
