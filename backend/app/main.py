@@ -169,6 +169,14 @@ def rename_session(session_id: int, name: str):
         return {"status": "error", "message": f"Session {session_id} not found"}
     return {"status": "ok", "session_id": session_id, "name": name}
 
+# Delete session by id
+@app.delete("/api/sessions/{session_id}")
+def delete_session(session_id: int):
+    deleted = session_manager.delete_session(session_id)
+    if not deleted:
+        return {"status": "error", "message": f"Session {session_id} not found"}
+    return {"status": "ok"}
+
 # --- WebSocket ---
 
 # Accepts and tracks live WebSocket connections from the frontend

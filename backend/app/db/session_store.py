@@ -122,6 +122,18 @@ class SessionManager:
 
             return updated # returns False if provided session id doesn't exist
         
+    # Delete session by id
+    def delete_session(self, session_id: int) -> bool :
+        with self._lock:
+            conn = self._get_conn()
+            cursor = conn.cursor()
+            cursor.execute(
+                "DELETE FROM sessions WHERE id = ?",
+                (session_id,)
+            )
+            conn.commit()
+            return cursor.rowcount > 0
+
     # Get all sessions from database
     def get_all_sessions(self) -> list:
         with self._lock:
