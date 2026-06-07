@@ -117,24 +117,3 @@
     font-size: 12px;
     font-family: var(--font-sans);
 }
-
-.cards {
-    width: 100%;
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 10px;
-    flex-shrink: 0;
-}
-
-.charts {
-    width: 100%;
-    display: flex;
-    gap: 10px;
-    flex-shrink: 0;
-}
-
-.packetTable {
-    width: 100%;
-    box-sizing: border-box;
-    border: none;
-}
