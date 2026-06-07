@@ -36,14 +36,14 @@ export function useWebSocket() {
             setConnected(false);
         };
 
-        ws.onerror = () => {
+        ws.onerror = (err) => {
             console.error("[WS] Error:", err);
         };
     }, []);
 
     const disconnect = useCallback(() => {
         wsRef.current?.close();
-    })
+    }, [])
 
     // CLeanup connection on unmount
     useEffect(() => {

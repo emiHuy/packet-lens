@@ -121,7 +121,10 @@ export default function SessionsView() {
                 </div>
             ) : (
                 <div className={styles.viewSessionWrapper}>
-                    <span className={styles.sessionTop}>{viewedSession?.stats.name || viewedSession?.stats.id || "Unnamed Session"} · {viewedSession?.stats.interface || "Unknown" }</span>
+                    <div className={styles.sessionTop}>
+                        <button onClick={() => setViewingSession(false)}>↩ back</button>
+                        <span className={styles.sessionRight}>{viewedSession?.stats.interface || "Unknown" } · {viewedSession?.stats.name || viewedSession?.stats.id || "Unnamed Session"}</span>
+                    </div>
                     <Dashboard stats={viewedSession?.stats} packets={viewedSession?.packets}/>
                 </div>
             )}
