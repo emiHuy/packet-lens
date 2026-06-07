@@ -142,10 +142,33 @@
 }
 
 .sessionTop {
+    width: 95%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0 10px 0;
+}
+
+.sessionTop button {
+    height: fit-content;
+    width: fit-content;
+    border: 0.5px solid var(--text-label);
+    border-radius: 8px;
+    padding: 5px;
+    background: transparent;
+    color: var(--text-label);
+}
+
+.sessionTop button:hover {
+    opacity: 0.7;
+}
+
+.sessionTop button:active {
+    opacity: 0.5;
+}
+
+.sessionRight {
     color: var(--text-label);
     font-size: 14px;
     font-family: var(--font-sans);
-    width: 95%;
-    text-align: center;
-    padding: 20px 0 10px 0;
 }
