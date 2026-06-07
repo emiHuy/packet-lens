@@ -10,7 +10,7 @@ function App() {
 
   return (
     <>
-      <Navbar activeTab={activeTab} switchTab={setActiveTab}/>
+      <Navbar activeTab={activeTab} switchTab={setActiveTab} capturing={capturing}/>
       {activeTab === "Live" ? (
         <LiveView capturing={capturing} setCapturing={setCapturing}></LiveView>
       ) : (
