@@ -1,4 +1,15 @@
 .sessionsView {
+    height: fit-content;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: auto;
+    scrollbar-width: none;
+}
+
+.sessionsWrapper {
+    width: 95%;
     padding: 16px 20px;
 }
 
@@ -111,4 +122,24 @@
 .emoji:hover {
     background-color: var(--purple-border);
     cursor: pointer;
+}
+
+.viewSessionWrapper {
+    width: 95%;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    box-sizing: border-box;
+    overflow: visible;
+}
+
+.sessionTop {
+    color: var(--text-label);
+    font-size: 14px;
+    font-family: var(--font-sans);
+    width: 95%;
+    text-align: center;
+    padding: 20px 0 10px 0;
 }
