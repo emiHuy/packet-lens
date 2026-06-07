@@ -43,7 +43,7 @@ export function useWebSocket() {
 
     const disconnect = useCallback(() => {
         wsRef.current?.close();
-    })
+    }, [])
 
     // CLeanup connection on unmount
     useEffect(() => {
