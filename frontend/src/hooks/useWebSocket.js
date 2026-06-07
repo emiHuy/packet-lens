@@ -36,7 +36,7 @@ export function useWebSocket() {
             setConnected(false);
         };
 
-        ws.onerror = () => {
+        ws.onerror = (err) => {
             console.error("[WS] Error:", err);
         };
     }, []);
