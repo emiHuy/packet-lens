@@ -2,7 +2,10 @@ from collections import Counter
 import time
 
 class PacketProcessor:
-    def __init__(self):
+    def __init__(self, excluded_ips=None):
+        # IPs to exclude from destination IPs
+        self.excluded_ips = excluded_ips or set()
+
         # Master counters for current session
         self.total_packets = 0
         self.total_bytes = 0
@@ -74,7 +77,20 @@ class PacketProcessor:
         # Tally protocolos and IPs
         self.protocols[parsed_packet["protocol"]] += 1
         self.sources[parsed_packet["src"]] += 1
-        self.destinations[parsed_packet["dst"]] += 1
+        dst = parsed_packet["dst"]
+
+        includeDst = (
+            dst not in self.excluded_ips
+            and not dst.startswith("192.168.")
+            and not dst.startswith("10.")
+            and not dst.startswith("172.")
+            and not dst.startswith("224.")
+            and not dst.startswith("239.")
+            and dst != "255.255.255.255"
+        )
+
+        if includeDst:
+            self.destinations[dst] += 1
 
         # Enrich and tally ports
         parsed_packet["sport_friendly"] = self._get_port_label(parsed_packet["sport"])
