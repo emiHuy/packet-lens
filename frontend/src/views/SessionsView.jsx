@@ -2,8 +2,8 @@ import { useState, useEffect } from "react"
 
 import Dashboard from "../components/Dashboard"
 
-import { fetchSessions, fetchSession, renameSession, deleteSession } from "../api/client";
-import { formatNumber, formatBytes, formatSessionMeta } from "../utils/helpers";
+import { fetchSessions, fetchSession, renameSession, deleteSession } from "../api/client"
+import { formatNumber, formatBytes, formatSessionMeta } from "../utils/helpers"
 
 import styles from "./SessionsView.module.css"
 
@@ -70,6 +70,10 @@ export default function SessionsView() {
                         <span className={styles.count}>{sessions.length} sessions</span>
                     </div>
 
+                    {sessions.length === 0 && (
+                        <p className={styles.noSessions}>No sessions yet.</p>
+                    )}
+
                     <div className={styles.list}>
                         {sessions.map((session) => (
                             <div key={session.id} className={styles.row} onClick={() => handleSessionClick(session.id)}>
@@ -113,10 +117,9 @@ export default function SessionsView() {
                                 </div>
                             </div>
                         ))}
-
                     </div>
                 </div>
-            ):(
+            ) : (
                 <div className={styles.viewSessionWrapper}>
                     <span className={styles.sessionTop}>{viewedSession?.stats.name || viewedSession?.stats.id || "Unnamed Session"} · {viewedSession?.stats.interface || "Unknown" }</span>
                     <Dashboard stats={viewedSession?.stats} packets={viewedSession?.packets}/>

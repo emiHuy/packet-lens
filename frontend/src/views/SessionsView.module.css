@@ -19,6 +19,12 @@
     padding: 20px;
 }
 
+.noSessions {
+    color: var(--text-secondary);
+    font-size: 11px;
+    padding: 0;
+}
+
 .header {
     display: flex;
     align-items: center;
