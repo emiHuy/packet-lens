@@ -5,12 +5,13 @@ CREATE_SESSIONS_TABLE = """
         started_at    REAL NOT NULL,
         ended_at      REAL,
         interface     TEXT,
-        total_packets INTEGER DEFAULT 0,
-        total_bytes   INTEGER DEFAULT 0,
+        packets       INTEGER DEFAULT 0,
+        bytes         INTEGER DEFAULT 0,
         protocols     TEXT,
         sources       TEXT,
         destinations  TEXT,
-        ports         TEXT
+        ports         TEXT,
+        pps           REAL
     );
 """
 
