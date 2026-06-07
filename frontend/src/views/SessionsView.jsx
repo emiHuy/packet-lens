@@ -51,7 +51,6 @@ export default function SessionsView() {
             const session = await fetchSession(id);
             setViewedSession(session);
             setViewingSession(true);
-            console.log(session);
         } catch (e) {
             console.error("Failed to fetch session", e);
         }
