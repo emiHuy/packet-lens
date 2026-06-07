@@ -1,5 +1,4 @@
-import { useEffect, useRef } from "react"
-import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts"
+import { PieChart, Pie, Cell } from "recharts"
 
 import { PROTOCOL_COLOURS } from "../utils/constants";
 import { formatNumber } from "../utils/helpers";
@@ -26,15 +25,13 @@ function PieChartView({ data }) {
 
     return (
         <div className={styles.pieChart}>
-            <ResponsiveContainer width={140} height={140}>
-                <PieChart>
-                    <Pie data={chartData} cx={50} cy={65} innerRadius={32} outerRadius={50} dataKey="value" strokeWidth={0}>
-                        {chartData.map((entry) => (
-                            <Cell key={entry.name} fill={PROTOCOL_COLOURS[entry.name] ?? "var(--text-label)"} />
-                        ))}
-                    </Pie>
-                </PieChart>
-            </ResponsiveContainer>
+            <PieChart width={140} height={140}>
+                <Pie data={chartData} cx={50} cy={65} innerRadius={32} outerRadius={50} dataKey="value" strokeWidth={0}>
+                    {chartData.map((entry) => (
+                        <Cell key={entry.name} fill={PROTOCOL_COLOURS[entry.name] ?? "var(--text-label)"} />
+                    ))}
+                </Pie>
+            </PieChart>
 
             <div className={styles.legend}>
                 {chartData.map((entry) => (
