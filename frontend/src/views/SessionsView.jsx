@@ -85,6 +85,7 @@ export default function SessionsView() {
                                                     if (e.key === "Enter") handleRename(session.id);
                                                     if (e.key === "Escape") setEditingId(null);
                                                 }}
+                                                onClick={(e) => e.stopPropagation()}
                                                 autoFocus
                                             />
                                         ) : (
@@ -99,8 +100,15 @@ export default function SessionsView() {
                                         <div className={styles.sessionBytes}>{formatBytes(session.bytes)}</div>
                                     </div>
                                     <div className={styles.options}>
-                                        <button className={styles.emoji} onClick={() => { setEditingId(session.id); setEditingName(session.name); }}>✏️</button>
-                                        <button className={styles.emoji} onClick={() => { handleDelete(session.id)}}>🗑️</button>
+                                        <button className={styles.emoji} onClick={(e) => {
+                                            e.stopPropagation();
+                                            setEditingId(session.id);
+                                            setEditingName(session.name);
+                                        }}>✏️</button>
+                                        <button className={styles.emoji} onClick={(e) => {
+                                            e.stopPropagation();
+                                            handleDelete(session.id);
+                                        }}>🗑️</button>
                                     </div>
                                 </div>
                             </div>
