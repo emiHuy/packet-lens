@@ -1,10 +1,12 @@
 import asyncio
 from contextlib import asynccontextmanager
 
+import socket
 import psutil
+from scapy.all import IFACES
+
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
-from scapy.all import IFACES
 
 from app.core.sniffer import PacketSniffer
 from app.core.processor import PacketProcessor
@@ -86,6 +88,14 @@ def network_pipeline_callback(parsed_packet):
         loop = app.state.loop
         loop.call_soon_threadsafe(packet_queue.put_nowait, payload)
 
+def get_local_ips():
+    excluded = {"127.0.0.1", "255.255.255.255"}
+    for iface, addrs in psutil.net_if_addrs().items():
+        for addr in addrs:
+            if addr.family == socket.AF_INET:
+                excluded.add(addr.address)
+    return excluded
+
 # Find the machine's default interface
 def get_default_interface():
     # Get interface stats
@@ -123,7 +133,7 @@ def start_capture(interface: str = None, name: str = None):
     if not selected_interface:
         return {"status": "error", "message": "No suitable interface found"}
 
-    processor = PacketProcessor()
+    processor = PacketProcessor(excluded_ips=get_local_ips())
     current_session_id = session_manager.create_session(selected_interface, name)
     sniffer.start(interface=selected_interface, callback=network_pipeline_callback)
 

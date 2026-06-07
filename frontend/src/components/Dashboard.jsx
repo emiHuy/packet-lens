@@ -7,7 +7,7 @@ import styles from "./Dashboard.module.css"
 
 export default function Dashboard({ stats, packets }) {
 
-    const top5 = (obj) => Object.fromEntries(Object.entries(obj || {}).slice(0, 5));
+    const top5 = (obj) => Object.fromEntries(Object.entries(obj || {}).sort((a, b) => b[1] - a[1]).slice(0, 5));
 
     return (
         <div className={styles.dashboard}>
