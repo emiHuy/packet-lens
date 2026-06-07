@@ -31,3 +31,8 @@ export async function renameSession(sessionId, name) {
     const res = await fetch(`${BASE_URL}/api/sessions/${sessionId}?name=${name}`, { method: "PATCH" });
     return res.json();
 }
+
+export async function deleteSession(sessionId) {
+    const res = await fetch(`${BASE_URL}/api/sessions/${sessionId}`, { method: "DELETE" });
+    return res.json();
+}

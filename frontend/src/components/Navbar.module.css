@@ -1,0 +1,51 @@
+.nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 20px;
+    border-bottom: 0.5px solid var(--border-color-primary);
+    font-family: var(--font-sans);
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.icon {
+    width: 25px;
+    height: 25px;
+    border-radius: 6px;
+    border: 0.5px solid var(--purple-border);
+}
+
+.title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-primary);
+    letter-spacing: 0.05em;
+}
+
+.tabs {
+    display: flex;
+    background: var(--bg-color-secondary);
+    border-radius: 8px;
+    padding: 3px;
+    border: 0.5px solid var(--border-color-secondary);
+    gap: 2px;
+}
+
+.tab {
+    all: unset;
+    font-size: 12px;
+    padding: 4px 12px;
+    border-radius: 6px;
+    color: var(--text-label);
+    cursor: pointer;
+}
+
+.tab.active {
+    background-color: var(--bg-color-active);
+    color: var(--text-accented)
+}

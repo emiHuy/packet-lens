@@ -62,19 +62,29 @@ class SessionManager:
         with self._lock:
             conn = self._get_conn()
             cursor = conn.cursor()
+
+            # Compute average PPS
+            cursor.execute("SELECT started_at FROM sessions WHERE id = ?", (session_id,))
+            start_time = cursor.fetchone()[0]
+            end_time = time.time()
+            duration = end_time - start_time
+            pps = stats["packets"] / duration if duration > 0 else 0
+
+            # Update data
             cursor.execute(
                 """UPDATE sessions
-                   SET ended_at = ?, total_packets = ?, total_bytes = ?,
-                       protocols = ?, sources = ?, destinations = ?, ports = ?
+                   SET ended_at = ?, packets = ?, bytes = ?,
+                       protocols = ?, sources = ?, destinations = ?, ports = ?, pps = ?
                    WHERE id = ?""",
                 (
-                    time.time(),
-                    stats["total_packets"],
-                    stats["total_bytes"],
+                    end_time,
+                    stats["packets"],
+                    stats["bytes"],
                     json.dumps(stats["protocols"]),
                     json.dumps(stats["sources"]),
                     json.dumps(stats["destinations"]),
                     json.dumps(stats["ports"]),
+                    pps,
                     session_id,
                 )
             )
@@ -122,6 +132,18 @@ class SessionManager:
 
             return updated # returns False if provided session id doesn't exist
         
+    # Delete session by id
+    def delete_session(self, session_id: int) -> bool :
+        with self._lock:
+            conn = self._get_conn()
+            cursor = conn.cursor()
+            cursor.execute(
+                "DELETE FROM sessions WHERE id = ?",
+                (session_id,)
+            )
+            conn.commit()
+            return cursor.rowcount > 0
+
     # Get all sessions from database
     def get_all_sessions(self) -> list:
         with self._lock:
@@ -153,7 +175,7 @@ class SessionManager:
 
             # Get packets from packets table
             cursor.execute(
-                "SELECT * FROM packets WHERE session_id = ? ORDER BY timestamp ASC",
+                "SELECT * FROM packets WHERE session_id = ? ORDER BY timestamp DESC",
                 (session_id,)
             )
             packets = []
@@ -162,6 +184,6 @@ class SessionManager:
             conn.close()
 
             return {
-                **self._deserialize_session(dict(session)), 
+                "stats": self._deserialize_session(dict(session)),
                 "packets": packets,
             }

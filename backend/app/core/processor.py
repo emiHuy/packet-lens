@@ -1,4 +1,5 @@
 from collections import Counter
+import time
 
 class PacketProcessor:
     def __init__(self):
@@ -12,24 +13,56 @@ class PacketProcessor:
         self.destinations = Counter()
         self.ports = Counter()
 
+        # Packets/seconds tracking
+        self.packet_timestamps = []
+
         # Port mapping dictionary
         self.COMMON_PORTS = {
-            80: "HTTP",
-            443: "HTTPS",
-            53: "DNS",
-            22: "SSH",
-            8000: "FastAPI App"
+            20: "FTP Data", 
+            21: "FTP", 22: 
+            "SSH", 
+            23: "Telnet",
+            25: "SMTP", 
+            53: "DNS", 
+            67: "DHCP", 
+            68: "DHCP",
+            80: "HTTP", 
+            110: "POP3", 
+            143: "IMAP", 
+            161: "SNMP",
+            194: "IRC", 
+            443: "HTTPS", 
+            445: "SMB", 
+            465: "SMTPS",
+            587: "SMTP", 
+            631: "IPP",
+            993: "IMAPS", 
+            995: "POP3S",
+            1194: "OpenVPN", 
+            1433: "MSSQL", 
+            1521: "Oracle",
+            3306: "MySQL", 
+            3389: "RDP", 
+            5432: "Postgres",
+            5900: "VNC", 
+            6379: "Redis", 
+            8080: "HTTP-Alt",
+            8443: "HTTPS-Alt", 
+            27017: "MongoDB"
         }
 
     # Converts a port number into a consistent human-readable string label
     def _get_port_label(self, port) -> str:
-        if port == "-":
-            return "-"
-    
         if port in self.COMMON_PORTS:
             return self.COMMON_PORTS[port]
         
-        return f"Port {port}"
+        return "-" 
+    
+    def _get_pps(self) -> int:
+        now = time.time()
+        self.packet_timestamps.append(now)
+        self.packet_timestamps = [t for t in self.packet_timestamps if now - t < 1.0]
+        return len(self.packet_timestamps)
     
     # Take parsed packet, update session statistics, and enrich data with friendly names
     def process_packet_dict(self, parsed_packet: dict) -> dict:
@@ -56,10 +89,11 @@ class PacketProcessor:
     # Returns the aggregated data snapshot for the frontend
     def get_session_stats(self) -> dict:
         return {
-            "total_packets": self.total_packets,
-            "total_bytes": self.total_bytes,
+            "packets": self.total_packets,
+            "bytes": self.total_bytes,
             "protocols": dict(self.protocols),
             "sources": dict(self.sources),
             "destinations": dict(self.destinations),
-            "ports": dict(self.ports)
+            "ports": dict(self.ports),
+            "pps": self._get_pps(),
         }

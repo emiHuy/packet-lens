@@ -1,0 +1,39 @@
+.badge {
+    font-family: var(--font-sans);
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    border: 1px solid;
+    width: auto;
+    height: auto;
+}
+
+.tcp { 
+    color: var(--purple); 
+    background: var(--purple-bg);
+    border-color: var(--purple-border);
+}
+
+.udp { 
+    color: var(--yellow);
+    background: var(--yellow-bg); 
+    border-color: var(--yellow-border);
+}
+
+.dns { 
+    color: var(--green); 
+    background: var(--green-bg); 
+    border-color: var(--green-border);
+}
+
+.icmp { 
+    color: var(--red); 
+    background: var(--red-bg); 
+    border-color: var(--red-border);
+}
+
+.unknown { 
+    color: var(--text-primary);
+    background: var(--border-color-card);
+    border-color: var(--text-secondary);
+}

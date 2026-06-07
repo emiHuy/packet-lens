@@ -1,0 +1,130 @@
+import { useState, useEffect } from "react"
+
+import Dashboard from "../components/Dashboard"
+
+import { fetchSessions, fetchSession, renameSession, deleteSession } from "../api/client"
+import { formatNumber, formatBytes, formatSessionMeta } from "../utils/helpers"
+
+import styles from "./SessionsView.module.css"
+
+export default function SessionsView() {
+    const [sessions, setSessions] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    // Editing session name
+    const [editingId, setEditingId] = useState(null);
+    const [editingName, setEditingName] = useState("");
+
+    // Viewing session dashboard
+    const [viewedSession, setViewedSession] = useState({});
+    const [viewingSession, setViewingSession] = useState(false);
+
+    useEffect(() => {
+        async function load() {
+            const data = await fetchSessions();
+            setSessions(data);
+            setLoading(false);
+        }
+        load();
+    }, []);
+
+    async function handleRename(id) {
+        try {
+            await renameSession(id, editingName);
+            setSessions(sessions.map(s => s.id === id ? { ...s, name: editingName } : s));
+        } finally {
+            setEditingId(null);
+        }
+    }
+
+    async function handleDelete(id) {
+        try {
+            await deleteSession(id);
+            setSessions(sessions.filter(s => s.id !== id));
+        } catch (e) {
+            console.error("Failed to delete session", e);
+        }
+    }
+
+    async function handleSessionClick(id) {
+        try {
+            const session = await fetchSession(id);
+            setViewedSession(session);
+            setViewingSession(true);
+            console.log(session);
+        } catch (e) {
+            console.error("Failed to fetch session", e);
+        }
+    }
+
+    if (loading) {
+        return <div className={styles.loading}>Loading...</div>;
+    }
+
+    return (
+        <div className={styles.sessionsView}>
+            {!viewingSession ? (
+                <div className={styles.sessionsWrapper}>
+                    <div className={styles.header}>
+                        <span className={styles.title}>Saved Sessions</span>
+                        <span className={styles.count}>{sessions.length} sessions</span>
+                    </div>
+
+                    {sessions.length === 0 && (
+                        <p className={styles.noSessions}>No sessions yet.</p>
+                    )}
+
+                    <div className={styles.list}>
+                        {sessions.map((session) => (
+                            <div key={session.id} className={styles.row} onClick={() => handleSessionClick(session.id)}>
+                                <div className={styles.sessionInfo}>
+                                    <div className={styles.sessionName}>
+                                        {editingId === session.id ? (
+                                            <input
+                                                className={styles.renameInput}
+                                                value={editingName}
+                                                onChange={(e) => setEditingName(e.target.value)}
+                                                onBlur={() => handleRename(session.id)}
+                                                onKeyDown={(e) => {
+                                                    if (e.key === "Enter") handleRename(session.id);
+                                                    if (e.key === "Escape") setEditingId(null);
+                                                }}
+                                                onClick={(e) => e.stopPropagation()}
+                                                autoFocus
+                                            />
+                                        ) : (
+                                            session.name
+                                        )}
+                                    </div>
+                                    <div className={styles.sessionMeta}>{formatSessionMeta(session)}</div>
+                                </div>
+                                <div className={styles.right}>
+                                    <div className={styles.sessionNumbers}>
+                                        <div className={styles.sessionPackets}>{formatNumber(session.packets)} pkts</div>
+                                        <div className={styles.sessionBytes}>{formatBytes(session.bytes)}</div>
+                                    </div>
+                                    <div className={styles.options}>
+                                        <button className={styles.emoji} onClick={(e) => {
+                                            e.stopPropagation();
+                                            setEditingId(session.id);
+                                            setEditingName(session.name);
+                                        }}>✏️</button>
+                                        <button className={styles.emoji} onClick={(e) => {
+                                            e.stopPropagation();
+                                            handleDelete(session.id);
+                                        }}>🗑️</button>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            ) : (
+                <div className={styles.viewSessionWrapper}>
+                    <span className={styles.sessionTop}>{viewedSession?.stats.name || viewedSession?.stats.id || "Unnamed Session"} · {viewedSession?.stats.interface || "Unknown" }</span>
+                    <Dashboard stats={viewedSession?.stats} packets={viewedSession?.packets}/>
+                </div>
+            )}
+        </div>
+    )
+}

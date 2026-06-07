@@ -1,0 +1,7 @@
+export const PROTOCOL_COLOURS = {
+  "TCP": "var(--purple)",
+  "UDP": "var(--yellow)",
+  "ICMP": "var(--green)",
+  "ARP": "var(--red)",
+  "UNK": "var(--text-label)",
+};

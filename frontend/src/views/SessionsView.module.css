@@ -1,0 +1,151 @@
+.sessionsView {
+    height: fit-content;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: auto;
+    scrollbar-width: none;
+}
+
+.sessionsWrapper {
+    width: 95%;
+    padding: 16px 20px;
+}
+
+.loading {
+    color: var(--text-secondary);
+    font-size: 11px;
+    padding: 20px;
+}
+
+.noSessions {
+    color: var(--text-secondary);
+    font-size: 11px;
+    padding: 0;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+}
+
+.title {
+    color: var(--text-secondary);
+    font-size: 12px;
+}
+
+.count {
+    font-size: 11px;
+    color: var(--text-tertiary);
+}
+
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--bg-color-secondary);
+    border: 0.5px solid var(--border-color-secondary);
+    border-radius: 8px;
+    padding: 11px 14px;
+    cursor: pointer;
+    position: relative;
+}
+
+.row:hover {
+    background: color-mix(in srgb, var(--border-color-card), transparent 50%);
+}
+
+.sessionInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sessionName {
+    color: var(--text-accented);
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.renameInput {
+    color: var(--text-accented);
+    background: var(--bg-color-card);
+    border: none;
+    border-bottom: 0.5px solid var(--border-color-card);
+}
+
+.sessionMeta {
+    font-size: 11px;
+    color: var(--text-label);
+}
+
+.right {
+    display: flex;
+    gap: 10px;
+}
+
+.sessionNumbers {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sessionPackets {
+    font-size: 12px;
+    color: var(--text-accented);
+    font-weight: 500;
+    text-align: right;
+}
+
+.sessionBytes {
+    font-size: 11px;
+    color: var(--text-label);
+    text-align: right;
+}
+
+.options {
+    margin-top: -3px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.emoji {
+    background-color: transparent;
+    border: none;
+    border-radius: 2px;
+}
+
+.emoji:hover {
+    background-color: var(--purple-border);
+    cursor: pointer;
+}
+
+.viewSessionWrapper {
+    width: 95%;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    box-sizing: border-box;
+    overflow: visible;
+}
+
+.sessionTop {
+    color: var(--text-label);
+    font-size: 14px;
+    font-family: var(--font-sans);
+    width: 95%;
+    text-align: center;
+    padding: 20px 0 10px 0;
+}

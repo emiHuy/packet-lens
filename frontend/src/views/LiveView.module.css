@@ -1,0 +1,119 @@
+.liveView {
+    height: fit-content;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: auto;
+    scrollbar-width: none;
+}
+
+/* --- IDLE [CAPTURE] WRAPPER --- */
+.idleWrapper {
+    height: 85vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.startBtnWrapper {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ring {
+    width: 120px;
+    height: 120px;
+    border: 1px solid var(--purple-border);
+    border-radius: 50%;
+    position: absolute;
+}
+
+.startBtn {
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--purple-bg);
+    border: 2px solid var(--purple-border);
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 100;
+}
+
+.startBtn:hover {
+    opacity: 0.6;
+    border-color: var(--text-tertiary);
+}
+
+.startBtn:active {
+    opacity: 0.2;
+}
+
+.startText {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 30px;
+}
+
+.secondaryText {
+    color: var(--text-secondary);
+}
+
+.tertiaryText {
+    color: var(--text-tertiary);
+}
+
+/* --- ACTIVE [CAPTURE] WRAPPER --- */
+.activeWrapper {
+    width: 95%;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    box-sizing: border-box;
+    overflow: visible;
+}
+
+.topbar {
+    width: 95%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 20px;
+}
+
+.stopBtn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: var(--red-bg);
+    border: 0.5px solid var(--red-border);
+    border-radius: 6px;
+    color: var(--red);
+    font-size: 12px;
+    padding: 5px 11px;
+}
+
+.stopBtn:hover {
+    opacity: 0.6;
+}
+
+.stopBtn:active {
+    opacity: 0.3;
+}
+
+.sessionInfo {
+    color: var(--text-label);
+    font-size: 12px;
+    font-family: var(--font-sans);
+}
