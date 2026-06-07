@@ -58,12 +58,12 @@ th {
 
 td {
     color: var(--text-accented-muted);
-    padding: 5px 20px;
+    padding: 10px 20px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     font-size: 11px;
-    border-bottom: 0.2px solid var(--border-color-secondary); 
+    border-bottom: 0.2px solid var(--border-color-secondary);
 }
 
 .empty {
