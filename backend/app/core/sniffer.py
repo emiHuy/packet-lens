@@ -2,6 +2,11 @@ import threading
 from scapy.all import sniff, IP, TCP, UDP, ICMP, ARP
 
 class PacketSniffer:
+    """
+    Captures raw packets from a network interface using Scapy and forwards
+    parsed packet dictionaries to an external callback function.
+    """
+
     def __init__(self):
         self.running = False
         self.thread = None

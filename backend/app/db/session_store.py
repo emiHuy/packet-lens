@@ -9,12 +9,17 @@ DB_PATH = "packetlens.db"
 JSON_FIELDS = ["protocols", "sources", "destinations", "ports"]
 
 class SessionManager:
+    """
+    Manages capture session persistence using SQLite. Thread-safe via a
+    lock since packets are inserted from a background sniffer thread.
+    """
+
     def __init__(self):
         self._lock = threading.Lock()
         self._init_db()
 
     def _get_conn(self):
-        return sqlite3.connect(DB_PATH, check_same_thread=False)
+        return sqlite3.connect(DB_PATH, check_same_thread=False) # Thread safety is handled by self._lock, so check_same_thread can be disabled
     
     # Create tables if they don't exist
     def _init_db(self):

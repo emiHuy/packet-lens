@@ -2,6 +2,11 @@ from collections import Counter
 import time
 
 class PacketProcessor:
+    """
+    Captures raw packets from a network interface using Scapy and forwards
+    parsed packet dictionaries to an external callback function.
+    """
+
     def __init__(self, excluded_ips=None):
         # IPs to exclude from destination IPs
         self.excluded_ips = excluded_ips or set()

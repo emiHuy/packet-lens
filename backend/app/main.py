@@ -1,3 +1,8 @@
+"""
+FastAPI application entry point. Manages the packet capture pipeline,
+WebSocket broadcasting, and session lifecycle via REST endpoints.
+"""
+
 import asyncio
 from contextlib import asynccontextmanager
 

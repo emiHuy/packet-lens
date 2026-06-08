@@ -29,6 +29,7 @@ export function useWebSocket() {
             pendingRef.current.packets.unshift(packet);
             pendingRef.current.stats = stats;
 
+            // Batch updates every 100ms to prevent excessive re-renders under high packet volume
             if (!frameRef.current) {
                 frameRef.current = setTimeout(() => {
                     // Keep the most recent MAX_PACKETS packets
